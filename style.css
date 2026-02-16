@@ -20,8 +20,12 @@ body {
 
 h1 {
   margin: 0;
-  font-size: 28px;
-  color: #2d3748;
+  font-size: 30px;
+  font-weight: 600;
+  color: #1a202c;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 8px;
 }
 
 .input-group {
