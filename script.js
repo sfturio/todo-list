@@ -10,10 +10,11 @@ loadTasks();
 button.addEventListener("click", addTask)
 
 function addTask() {
-    const text = input.value;
+    const text = input.value.trim;
 
     if (text === "") return;
     tasks.push(text);
+    saveTasks();
     renderTasks();
     input.value = "";
 }
@@ -35,6 +36,7 @@ function renderTasks() {
 // DELETE
 function deleteTask(index) {
     tasks.splice(index, 1);
+    saveTasks();
     renderTasks();
 }
 
