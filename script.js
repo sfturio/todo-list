@@ -4,6 +4,9 @@ const list = document.getElementById("taskList");
 
 let tasks = [];
 
+//LOAD AO ABRIR PAGINA
+loadTasks();
+
 button.addEventListener("click", addTask)
 
 function addTask() {
@@ -15,7 +18,9 @@ function addTask() {
     input.value = "";
 }
 
+// RENDER
 function renderTasks() {
+
     list.innerHTML = "";
     tasks.forEach(function(task, index) {
         const li = document.createElement("li");
@@ -27,7 +32,22 @@ function renderTasks() {
     });
 }
 
+// DELETE
 function deleteTask(index) {
     tasks.splice(index, 1);
+    renderTasks();
+}
+
+// SAVE no localStorage
+function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+// LOAD no localStorage
+function loadTasks() {
+    const storedTasks = localStorage.getItem("tasks");
+    if (storedTasks) {
+        tasks = JSON.parse(storedTasks);
+    }
     renderTasks();
 }
