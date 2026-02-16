@@ -9,11 +9,17 @@ loadTasks();
 
 button.addEventListener("click", addTask)
 
+// ENTER adiciona task
+input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") addTask();
+});
+
 function addTask() {
     const text = input.value.trim();
-
     if (text === "") return;
-    tasks.push(text);
+
+ // Salva como objeto
+    tasks.push({ text: text, done: false });
     saveTasks();
     renderTasks();
     input.value = "";
@@ -21,16 +27,39 @@ function addTask() {
 
 // RENDER
 function renderTasks() {
-
     list.innerHTML = "";
+
     tasks.forEach(function(task, index) {
         const li = document.createElement("li");
-        li.textContent = task;
+        li.textContent = task.text;
+        if (task.done) {
+            li.classList.add("completed");
+        }
+
+        // click: alterna done
         li.addEventListener("click", function() {
+            toggleTask(index);
+        });
+
+        // botão delete 
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "x";
+        delBtn.classList.add("delete-btn");
+
+        // Evita o click do li
+        delBtn.addEventListener("click", function(e) {
+            e.stopPropagation();
             deleteTask(index);
         });
+        li.appendChild(delBtn);
         list.appendChild(li);
     });
+}
+
+function toggleTask(index) {
+    tasks[index].done = !tasks[index].done;
+    saveTasks();
+    renderTasks();
 }
 
 // DELETE
@@ -49,7 +78,13 @@ function saveTasks() {
 function loadTasks() {
     const storedTasks = localStorage.getItem("tasks");
     if (storedTasks) {
-        tasks = JSON.parse(storedTasks);
+        try {
+            tasks = JSON.parse(storedTasks);
+        } catch {
+            tasks = [];
+        }
+    } else {
+        tasks = [];
     }
     renderTasks();
 }

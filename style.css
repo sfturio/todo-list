@@ -75,3 +75,39 @@ li {
 li:hover {
   background: #edf2f7;
 }
+
+.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 4px;
+  cursor: pointer;
+  border-radius: 4px;
+  position: relative;
+  padding-left: 18px;
+}
+
+li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #4a5568;
+}
+
+.delete-btn {
+  background: transparent;
+  border: 1px solid #cbd5e0;
+  color: #2d3748;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #e2e8f0;
+}
