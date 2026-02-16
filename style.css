@@ -111,3 +111,9 @@ li::before {
 .delete-btn:hover {
   background: #e2e8f0;
 }
+
+.hint {
+  font-size: 13px;
+  color: #718096;
+  margin: -10px 0 10px 0;
+}
