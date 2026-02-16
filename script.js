@@ -10,7 +10,7 @@ loadTasks();
 button.addEventListener("click", addTask)
 
 function addTask() {
-    const text = input.value.trim;
+    const text = input.value.trim();
 
     if (text === "") return;
     tasks.push(text);
