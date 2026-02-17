@@ -2,8 +2,7 @@ const input = document.getElementById("taskInput");
 const button = document.getElementById("addBtn");
 const list = document.getElementById("taskList");
 const itemsLeftEl = document.getElementById("itemsLeft");
-
-// botões de filtro
+const clearCompletedBtn = document.getElementById("clearCompletedBtn");
 const filterButtons = document.querySelectorAll(".filter-btn");
 
 // estado do filtro (all | active | completed)
@@ -32,6 +31,11 @@ button.addEventListener("click", addTask);
 input.addEventListener("keydown", function (e) {
   if (e.key === "Enter") addTask();
 });
+
+// botão: remove completadas
+if (clearCompletedBtn) {
+  clearCompletedBtn.addEventListener("click", clearCompleted);
+}
 
 function addTask() {
   const text = input.value.trim();
@@ -64,6 +68,17 @@ function updateItemsLeft() {
   }).length;
 
   itemsLeftEl.textContent = left + " left";
+}
+
+// habilita/desabilita botão de remover completadas
+function updateClearButton() {
+  if (!clearCompletedBtn) return;
+
+  const hasCompleted = tasks.some(function(task) {
+    return task.done;
+  });
+
+  clearCompletedBtn.disabled = !hasCompleted;
 }
 
 // RENDER
@@ -103,6 +118,7 @@ function renderTasks() {
   });
 
   updateItemsLeft();
+  updateClearButton();
 }
 
 function toggleTask(id) {
@@ -126,6 +142,18 @@ function deleteTask(id) {
   // remove pelo id
   tasks = tasks.filter(function(task) {
     return task.id !== id;
+  });
+
+  saveTasks();
+  renderTasks();
+}
+
+// DELETE: remove todas completadas
+function clearCompleted() {
+
+  // mantém só as que NÃO estão completas
+  tasks = tasks.filter(function(task) {
+    return !task.done;
   });
 
   saveTasks();

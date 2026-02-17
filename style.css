@@ -154,3 +154,33 @@ li::before {
   color: #718096;
   margin-top: -6px;
 }
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  gap: 12px;
+  font-size: 13px;
+  color: #718096;
+  margin-top: -6px;
+}
+
+
+#clearCompletedBtn {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e0;
+  background: #fff;
+  color: #2d3748;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+#clearCompletedBtn:hover {
+  background: #edf2f7;
+}
+
+#clearCompletedBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

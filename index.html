@@ -15,7 +15,7 @@
 
     <div class="input-group">
       <input id="taskInput" placeholder="New Task">
-      <button id="addBtn">Add</button>
+      <button id="addBtn" type="button">Add</button>
     </div>
 
     <div class="filters" role="tablist" aria-label="Task filters">
@@ -25,10 +25,14 @@
     </div>
 
     <ul id="taskList"></ul>
-    
+
     <div class="footer">
-  <span id="itemsLeft">0 left</span>
-</div>
+      <span id="itemsLeft">0 left</span>
+
+      <button id="clearCompletedBtn" type="button">
+        Remover completadas
+      </button>
+    </div>
 
   </div>
 
