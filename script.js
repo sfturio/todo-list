@@ -1,90 +1,161 @@
 const input = document.getElementById("taskInput");
 const button = document.getElementById("addBtn");
 const list = document.getElementById("taskList");
+const filterButtons = document.querySelectorAll(".filter-btn");
+
+// estado do filtro (all | active | completed)
+let currentFilter = "all";
 
 let tasks = [];
 
 //LOAD AO ABRIR PAGINA
 loadTasks();
 
-button.addEventListener("click", addTask)
+// eventos dos botões de filtro
+filterButtons.forEach(function(btn) {
+  btn.addEventListener("click", function() {
+
+    // muda filtro
+    setFilter(btn.dataset.filter);
+
+    filterButtons.forEach(function(b) {
+      b.classList.remove("active");
+    });
+
+    btn.classList.add("active");
+  });
+});
+
+button.addEventListener("click", addTask);
 
 // ENTER adiciona task
 input.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") addTask();
+  if (e.key === "Enter") addTask();
 });
 
 function addTask() {
-    const text = input.value.trim();
-    if (text === "") return;
+  const text = input.value.trim();
+  if (text === "") return;
 
- // Salva como objeto
-    tasks.push({ text: text, done: false });
-    saveTasks();
-    renderTasks();
-    input.value = "";
+  // Salva como objeto
+  tasks.push({ id: Date.now(), text: text, done: false });
+
+  saveTasks();
+  renderTasks();
+  input.value = "";
+}
+
+function getFilteredTasks() {
+  if (currentFilter === "active") return tasks.filter(function(t) { return !t.done; });
+  if (currentFilter === "completed") return tasks.filter(function(t) { return t.done; });
+  return tasks; // all
+}
+
+// muda o filtro atual e re-renderiza
+function setFilter(filter) {
+  currentFilter = filter;
+  renderTasks();
 }
 
 // RENDER
 function renderTasks() {
-    list.innerHTML = "";
+  list.innerHTML = "";
 
-    tasks.forEach(function(task, index) {
-        const li = document.createElement("li");
-        li.textContent = task.text;
-        if (task.done) {
-            li.classList.add("completed");
-        }
+  // usa tasks filtradas
+  const filteredTasks = getFilteredTasks();
 
-        // click: alterna done
-        li.addEventListener("click", function() {
-            toggleTask(index);
-        });
+  filteredTasks.forEach(function(task) {
 
-        // botão delete 
-        const delBtn = document.createElement("button");
-        delBtn.textContent = "x";
-        delBtn.classList.add("delete-btn");
+    const li = document.createElement("li");
+    li.textContent = task.text;
 
-        // Evita o click do li
-        delBtn.addEventListener("click", function(e) {
-            e.stopPropagation();
-            deleteTask(index);
-        });
-        li.appendChild(delBtn);
-        list.appendChild(li);
+    if (task.done) {
+      li.classList.add("completed");
+    }
+
+    // click: alterna done
+    li.addEventListener("click", function() {
+      toggleTask(task.id);
     });
+
+    // botão delete
+    const delBtn = document.createElement("button");
+    delBtn.textContent = "x";
+    delBtn.classList.add("delete-btn");
+
+    // Evita o click do li
+    delBtn.addEventListener("click", function(e) {
+      e.stopPropagation();
+      deleteTask(task.id);
+    });
+
+    li.appendChild(delBtn);
+    list.appendChild(li);
+  });
 }
 
-function toggleTask(index) {
-    tasks[index].done = !tasks[index].done;
-    saveTasks();
-    renderTasks();
+function toggleTask(id) {
+
+  // procura pelo id
+  const t = tasks.find(function(task) {
+    return task.id === id;
+  });
+
+  if (!t) return;
+
+  t.done = !t.done;
+
+  saveTasks();
+  renderTasks();
 }
 
 // DELETE
-function deleteTask(index) {
-    tasks.splice(index, 1);
-    saveTasks();
-    renderTasks();
+function deleteTask(id) {
+
+  // remove pelo id
+  tasks = tasks.filter(function(task) {
+    return task.id !== id;
+  });
+
+  saveTasks();
+  renderTasks();
 }
 
 // SAVE no localStorage
 function saveTasks() {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 // LOAD no localStorage
 function loadTasks() {
-    const storedTasks = localStorage.getItem("tasks");
-    if (storedTasks) {
-        try {
-            tasks = JSON.parse(storedTasks);
-        } catch {
-            tasks = [];
-        }
-    } else {
-        tasks = [];
+
+  const storedTasks = localStorage.getItem("tasks");
+
+  if (storedTasks) {
+    try {
+      tasks = JSON.parse(storedTasks);
+    } catch {
+      tasks = [];
     }
-    renderTasks();
+  } else {
+    tasks = [];
+  }
+
+  // se existirem tasks antigas sem id, cria id nelas
+  tasks = tasks.map(function(t) {
+
+    if (t && typeof t === "object" && "id" in t) {
+      return t;
+    }
+
+    return {
+      id: Date.now() + Math.random(),
+      text: t.text ?? String(t),
+      done: !!t.done
+    };
+
+  });
+
+  saveTasks();
+  renderTasks();
 }

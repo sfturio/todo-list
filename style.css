@@ -117,3 +117,32 @@ li::before {
   color: #718096;
   margin: -10px 0 10px 0;
 }
+
+.filters {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.filter-btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e0;
+  background: #fff;
+  color: #2d3748;              
+  cursor: pointer;
+  font-size: 13px;
+
+  border: 1px solid #cbd5e0;
+}
+
+.filter-btn:hover {
+  background: #edf2f7;
+}
+
+.filter-btn.active {
+  font-weight: 600;
+  background: #4a5568;
+  color: #fff;
+  border-color: #4a5568;
+}
