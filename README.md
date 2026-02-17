@@ -1,52 +1,48 @@
-# To Do List
+# To-Do List
+A clean and functional To-Do List built with HTML, CSS, and JavaScript, featuring full CRUD operations, filters, and local storage persistence.
 
-Simple To Do List web app built with JavaScript, HTML, and CSS.
-
-## Live Demo
-
-https://sfturio.github.io/todo-list/
-
-## Features
-
-* Add new tasks
-* Mark tasks as completed
-* Delete tasks
-* Tasks are saved automatically (localStorage)
-* Tasks persist after page reload
-
-## Tech Used
-
-* HTML
-* CSS
-* JavaScript
-* LocalStorage
-
-## How to Use
-
-1. Type a task in the input field
-2. Click **Add** or press **Enter**
-3. Click a task to mark it as completed
-4. Click **x** to delete a task
-
-## Project Structure
-
+Live Demo: https://sfturio.github.io/todo-list/
+---
+# Features
+* Add new tasks (Create)
+* Display tasks (Read)
+* Mark tasks as completed (Update)
+* Delete individual tasks (Delete)
+* Remove all completed tasks (Bulk Delete)
+* Filters: All / Active / Completed
+* Saves automatically with localStorage
+* Shows remaining tasks count
+* Click task to toggle completed state
+---
+# Concepts Practiced
+* DOM manipulation
+* Event handling
+* Array methods (filter, find)
+* State management
+* localStorage persistence
+* CRUD architecture
+* UI updates based on state
+---
+# Tech Stack
+* HTML5
+* CSS3
+* JavaScript (Vanilla)
+---
+# Project Structure
 ```
 todo-list/
 │
 ├── index.html
 ├── style.css
-└── script.js
+├── script.js
+└── README.md
 ```
-
-## What I Learned
-
-* DOM manipulation
-* Event handling
-* Arrays and objects
-* LocalStorage persistence
-* Basic UI/UX structure
-
-## Author
-
-Wesley Turio
-https://github.com/sfturio
+# Future Improvements
+* Edit task text
+* Drag and reorder tasks
+* Dark mode
+* Component-based structure
+* React version
+---
+# Author
+GitHub: https://github.com/sfturio
