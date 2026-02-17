@@ -44,5 +44,3 @@ todo-list/
 * Component-based structure
 * React version
 ---
-# Author
-GitHub: https://github.com/sfturio
