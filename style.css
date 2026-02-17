@@ -146,3 +146,11 @@ li::before {
   color: #fff;
   border-color: #4a5568;
 }
+
+.footer {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 13px;
+  color: #718096;
+  margin-top: -6px;
+}

@@ -1,6 +1,9 @@
 const input = document.getElementById("taskInput");
 const button = document.getElementById("addBtn");
 const list = document.getElementById("taskList");
+const itemsLeftEl = document.getElementById("itemsLeft");
+
+// botões de filtro
 const filterButtons = document.querySelectorAll(".filter-btn");
 
 // estado do filtro (all | active | completed)
@@ -14,10 +17,7 @@ loadTasks();
 // eventos dos botões de filtro
 filterButtons.forEach(function(btn) {
   btn.addEventListener("click", function() {
-
-    // muda filtro
     setFilter(btn.dataset.filter);
-
     filterButtons.forEach(function(b) {
       b.classList.remove("active");
     });
@@ -45,16 +45,25 @@ function addTask() {
   input.value = "";
 }
 
+// retorna tasks com base no filtro atual
 function getFilteredTasks() {
   if (currentFilter === "active") return tasks.filter(function(t) { return !t.done; });
   if (currentFilter === "completed") return tasks.filter(function(t) { return t.done; });
-  return tasks; // all
+  return tasks; 
 }
 
-// muda o filtro atual e re-renderiza
 function setFilter(filter) {
   currentFilter = filter;
   renderTasks();
+}
+
+// calcula e mostra quantas tasks faltam
+function updateItemsLeft() {
+  const left = tasks.filter(function(task) {
+    return !task.done;
+  }).length;
+
+  itemsLeftEl.textContent = left + " left";
 }
 
 // RENDER
@@ -92,6 +101,8 @@ function renderTasks() {
     li.appendChild(delBtn);
     list.appendChild(li);
   });
+
+  updateItemsLeft();
 }
 
 function toggleTask(id) {
